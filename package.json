@@ -1,0 +1,19 @@
+{
+  "name": "bst",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bst.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjzachman/bst.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjzachman/bst/issues"
+  },
+  "homepage": "https://github.com/mjzachman/bst#readme"
+}
