@@ -40,32 +40,51 @@ const Tree = (input) => {
 
         console.log('that value is already in the tree');
     }
+    // find() accapts a vlaue and returns the node
+    const find = (val) => {
+        let current = root;
 
+        while (current.data !== val){
+            if(val < current.data && current.left){
+                current = current.left;
+            }else if (val > current.data && current.right){
+                current = current.right;
+            } else {
+                console.log(`there is no node with the value ${val}`);
+                return null;
+            }
+        }
+        return current;
+        }
+    
     const remove = (val) => {
         let parent = null;
-        let current = root;
         let leftChild = false;
-        let rightChild = false;
-
+        let current = root;
+        
+        // let current = find(val);
+        // if (!current) {return};
+        
         //goto requested node
+        // how can i replace this block of code with let current = find(val)?
+        // the problem is that i need leftChild
+        
         while(current.data != val){
             parent = current;
             
             if(val < current.data && current.left){
                 current = current.left;
                 leftChild = true;
-                rightChild = false;
             } else if (val > current.data && current.right){
                 current = current.right;
                 leftChild = false;
-                rightChild = true;
             } else {
                 console.log(`there is no node with the value ${val}`);
                 return;
             }
 
         }
-
+        
         // remove case varies based on number of children: 0, 1, or 2
         if(current.left && current.right){ 
             let replace = current.right;
@@ -78,28 +97,60 @@ const Tree = (input) => {
         }else if (current.left){ 
             if(leftChild){
                 parent.left = current.left;
-            } else if (rightChild) {
+            } else {
                 parent.right = current.left;
             }
         }else if (current.right){
             if(leftChild){
                 parent.left = current.right;
-            } else if (rightChild) {
+            } else {
                 parent.right = current.right;
             }
         }else { 
             if(leftChild) {
                 parent.left = null;
-            } else if (rightChild){
+            } else {
                 parent.right = null;
             }
         }
     }
-    // find() accapts a vlaue and returns the node
+    
     // levelOrder
-    // inOrder
-    // preOrder
-    // postOrder
+    const levelOrder = (func) => {
+        if(!root) { return };
+        let current = root;
+        let Q = [current];
+        let output = [];
+        while (Q[0]){
+            if (current.left) {Q.push(current.left)};
+            if (current.right) {Q.push(current.right)};
+            Q.splice(0,1);
+
+            if(func){ 
+                func(current.data)
+            }
+            else {
+                output.push(current.data);
+            }
+            
+            current = Q[0];
+        }
+        if(!func){
+            return output;
+        }
+    }
+    // preOrder, inOrder, and postOrder
+    const preOrder = (func) => {
+        func(root.data);
+    }
+    
+    const inOrder = (func) => {
+        func(root.data);
+    }
+    
+    const postOrder = (func) => {
+        func(root.data);
+    }
     // height
     // depth
     // isBalanced
@@ -120,7 +171,12 @@ const Tree = (input) => {
     return {
         root,
         insert,
+        find,
         remove,
+        levelOrder,
+        preOrder,
+        inOrder,
+        postOrder,
         prettyPrint
     }
 }
@@ -131,9 +187,6 @@ const test = [30, 50, 50, 60, 100, 10, 50, 80, 90, 20, 50, 40, 50];
 const myTree = Tree(test);
 myTree.insert(45);
 myTree.insert(12);
+myTree.insert(7);
 myTree.prettyPrint(myTree.root);
-myTree.remove(100);
-myTree.remove(12);
-myTree.remove(50);
-myTree.remove(0);
-myTree.prettyPrint(myTree.root);
+myTree.preOrder(console.log);
