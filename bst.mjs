@@ -139,6 +139,7 @@ const Tree = (input) => {
             return output;
         }
     }
+    
     // preOrder, inOrder, and postOrder
     const preOrder = (func, node = root) => {
         if(!node) { return [] };
@@ -182,6 +183,7 @@ const Tree = (input) => {
             return left.concat(right, data); 
         }
     }
+
     // height
     const height = (node) => {
         if(!node) { return };
@@ -203,6 +205,7 @@ const Tree = (input) => {
         
 
     }
+
     // depth
     const depth = (node) => {
         if(!node) { return };
