@@ -159,7 +159,7 @@ const Tree = (input) => {
         if(!node) { return [] };
         if(func) {
             inOrder(func, node.left);
-            func(node.data);
+            func(node);
             inOrder(func, node.right);
         } else {
             const data = [node.data];
@@ -174,7 +174,7 @@ const Tree = (input) => {
         if(func) {
             postOrder(func, node.left);
             postOrder(func, node.right);
-            func(node.data);
+            func(node);
             
         } else {
             const data = [node.data];
@@ -226,9 +226,13 @@ const Tree = (input) => {
 
     // isBalanced
     const isBalanced = (node = root) => {
-        if(node === null) { return }
-        if(height(node) === 0) { return true };
-        const diff = height(node.left) - height(node.right);
+        if ( node === null ) { return true };
+        
+        let heightL = 0;
+        let heightR = 0;
+        if (node.left) { heightL = height(node.left) };
+        if (node.right) { heightR = height(node.right) };
+        const diff = heightL - heightR;
         if ((Math.abs(diff) <= 1) && isBalanced(node.left) && isBalanced(node.right)){
             return true;
         } else {
@@ -269,10 +273,12 @@ const Tree = (input) => {
 
 const test = [30, 50, 50, 100, 50, 80, 90, 20, 50, 40, 50];
 const myTree = Tree(test);
- myTree.insert(7);
- //myTree.insert(91);
- //myTree.insert(1);
- //myTree.insert(2);
+ const testNode = myTree.find(80);
+ myTree.insert(5);
+ myTree.insert(4);
+ // myTree.insert(101);
+ myTree.insert(2);
+ myTree.insert(1);
 
 myTree.prettyPrint(myTree.root);
 console.log(myTree.isBalanced());
