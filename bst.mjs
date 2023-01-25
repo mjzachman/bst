@@ -240,6 +240,12 @@ const Tree = (input) => {
         }
     }
     // rebalance
+    const rebalance = () => {
+        const newArr = inOrder();
+        console.log(newArr);
+        return Tree(newArr);
+    }
+
     // 'tie it all
 
     const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -265,6 +271,7 @@ const Tree = (input) => {
         height,
         depth,
         isBalanced,
+        rebalance,
         prettyPrint
     }
 }
@@ -281,4 +288,5 @@ const myTree = Tree(test);
  myTree.insert(1);
 
 myTree.prettyPrint(myTree.root);
-console.log(myTree.isBalanced());
+const betterTree = myTree.rebalance();
+myTree.prettyPrint(betterTree.root);
