@@ -140,20 +140,98 @@ const Tree = (input) => {
         }
     }
     // preOrder, inOrder, and postOrder
-    const preOrder = (func) => {
-        func(root.data);
+    const preOrder = (func, node = root) => {
+        if(!node) { return [] };
+        if(func) {
+            func(node.data);
+            preOrder(func, node.left);
+            preOrder(func, node.right);
+        } else {
+            const data = [node.data];
+            const left = preOrder(null, node.left);
+            const right = preOrder(null, node.right);
+            return data.concat(left, right);
+        }
     }
     
-    const inOrder = (func) => {
-        func(root.data);
+    const inOrder = (func, node = root) => {
+        if(!node) { return [] };
+        if(func) {
+            inOrder(func, node.left);
+            func(node.data);
+            inOrder(func, node.right);
+        } else {
+            const data = [node.data];
+            const left = inOrder(null, node.left);
+            const right = inOrder(null, node.right);
+            return left.concat(data, right);
+        }
     }
     
-    const postOrder = (func) => {
-        func(root.data);
+    const postOrder = (func, node = root) => {
+        if(!node) { return [] };
+        if(func) {
+            postOrder(func, node.left);
+            postOrder(func, node.right);
+            func(node.data);
+            
+        } else {
+            const data = [node.data];
+            const left = postOrder(null, node.left);
+            const right = postOrder(null, node.right);
+            return left.concat(right, data); 
+        }
     }
     // height
+    const height = (node) => {
+        if(!node) { return };
+        if(!node.left && !node.right){ return 0 };
+        let heightL = 0;
+        let heightR = 0;
+        if (node.left){
+            heightL = height(node.left);
+        }
+        if(node.right){
+            heightR = height(node.right);
+        }
+        
+        if (heightL >= heightR){
+            return 1 + heightL;
+        } else if (heightR > heightL){
+            return 1 + heightR;
+        }
+        
+
+    }
     // depth
+    const depth = (node) => {
+        if(!node) { return };
+        if(node === root) { return 0 };
+        let current = root;
+        let count = 0;
+        while (current.data !== node.data){
+            if(node.data < current.data && current.left){
+                current = current.left; 
+                count++;
+            }else if (node.data > current.data && current.right){
+                current = current.right;
+                count++;
+            } 
+        }
+        return count;
+    }
+
     // isBalanced
+    const isBalanced = (node = root) => {
+        if(node === null) { return }
+        if(height(node) === 0) { return true };
+        const diff = height(node.left) - height(node.right);
+        if ((Math.abs(diff) <= 1) && isBalanced(node.left) && isBalanced(node.right)){
+            return true;
+        } else {
+            return false;
+        }
+    }
     // rebalance
     // 'tie it all
 
@@ -177,16 +255,21 @@ const Tree = (input) => {
         preOrder,
         inOrder,
         postOrder,
+        height,
+        depth,
+        isBalanced,
         prettyPrint
     }
 }
 
 
 
-const test = [30, 50, 50, 60, 100, 10, 50, 80, 90, 20, 50, 40, 50];
+const test = [30, 50, 50, 100, 50, 80, 90, 20, 50, 40, 50];
 const myTree = Tree(test);
-myTree.insert(45);
-myTree.insert(12);
-myTree.insert(7);
+ myTree.insert(7);
+ //myTree.insert(91);
+ //myTree.insert(1);
+ //myTree.insert(2);
+
 myTree.prettyPrint(myTree.root);
-myTree.preOrder(console.log);
+console.log(myTree.isBalanced());
